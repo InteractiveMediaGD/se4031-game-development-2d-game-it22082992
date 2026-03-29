@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform playerTransform;
-    public float xOffset = 5f; // Keeps the player on the left side of the screen
+    public float xOffset = 5f;
 
     private float shakeDuration = 0f;
     private float shakeMagnitude = 0.1f;

@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     public Sprite upSprite;   // Drag the "Fly Up" character sprite here
     public Sprite downSprite; // Drag the "Fly Down" character sprite here
     public Sprite idleSprite; // Drag your standard character sprite here
+    public Sprite badMoodSprite; // Drag the "Bad Mood" character sprite here
+    public float badMoodDuration = 1.0f; 
+    private float badMoodTimer = 0f;
 
     [Header("Score Settings")]
     public int score = 0;
@@ -47,7 +50,9 @@ public class PlayerController : MonoBehaviour
     public AudioClip shootSound;
     public AudioClip scoreSound;
     public AudioClip healthPackSound;
+    public AudioClip backgroundMusic;
     private AudioSource audioSource;
+    private AudioSource musicSource;
 
     private bool isDead = false;
 
@@ -61,7 +66,46 @@ public class PlayerController : MonoBehaviour
         
         audioSource = gameObject.AddComponent<AudioSource>();
         
+        if (backgroundMusic != null)
+        {
+            musicSource = gameObject.AddComponent<AudioSource>();
+            musicSource.clip = backgroundMusic;
+            musicSource.loop = true;
+            musicSource.playOnAwake = true;
+            musicSource.Play();
+        }
+        
         UpdateUI(); 
+        AnchorUI();
+    }
+
+    void AnchorUI()
+    {
+        // Anchor Health Bar to Top-Left
+        if (healthSlider != null)
+        {
+            RectTransform rt = healthSlider.GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                rt.anchorMin = new Vector2(0, 1);
+                rt.anchorMax = new Vector2(0, 1);
+                rt.pivot = new Vector2(0, 1);
+                rt.anchoredPosition = new Vector2(20, -20); // 20 units padding from top-left
+            }
+        }
+
+        // Anchor Score Text to Top-Left (below Health Bar)
+        if (scoreDisplay != null)
+        {
+            RectTransform rt = scoreDisplay.GetComponent<RectTransform>();
+            if (rt != null)
+            {
+                rt.anchorMin = new Vector2(0, 1);
+                rt.anchorMax = new Vector2(0, 1);
+                rt.pivot = new Vector2(0, 1);
+                rt.anchoredPosition = new Vector2(20, -60); // 60 units padding from top-left
+            }
+        }
     }
 
     void Update()
@@ -79,6 +123,15 @@ public class PlayerController : MonoBehaviour
         // Update player sprite based on vertical movement direction
         HandlePlayerVisuals(verticalInput);
 
+        // Keep player within camera bounds
+        ClampToScreen();
+
+        // Update bad mood timer
+        if (badMoodTimer > 0)
+        {
+            badMoodTimer -= Time.deltaTime;
+        }
+
         // Shooting logic
         if (Input.GetMouseButtonDown(0))
         {
@@ -86,10 +139,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void ClampToScreen()
+    {
+        if (Camera.main == null) return;
+
+        // Get the current screen boundaries in world space
+        float distance = transform.position.z - Camera.main.transform.position.z;
+        Vector3 minBounds = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance));
+        Vector3 maxBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, distance));
+
+        // Adding some character-size padding (approximate)
+        float padding = 0.5f; 
+
+        // Clamp positions
+        float clampedY = Mathf.Clamp(transform.position.y, minBounds.y + padding, maxBounds.y - padding);
+        
+        // Update position
+        transform.position = new Vector3(transform.position.x, clampedY, transform.position.z);
+    }
+
     // Swaps sprites to show the character looking up or down
     void HandlePlayerVisuals(float verticalInput)
     {
         if (playerSpriteRenderer == null) return;
+
+        // Visual feedback for being hit (Bad Mood)
+        if (badMoodTimer > 0 && badMoodSprite != null)
+        {
+            playerSpriteRenderer.sprite = badMoodSprite;
+            return;
+        }
 
         if (verticalInput > 0.1f)
         {
@@ -141,6 +220,9 @@ public class PlayerController : MonoBehaviour
                 {
                     audioSource.PlayOneShot(hitSound);
                 }
+
+                // Trigger Bad Mood visual
+                badMoodTimer = badMoodDuration;
             }
             else if (other.CompareTag("Enemy"))
             {

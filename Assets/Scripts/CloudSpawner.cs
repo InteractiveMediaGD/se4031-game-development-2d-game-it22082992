@@ -15,8 +15,14 @@ public class CloudSpawner : MonoBehaviour
 
     void SpawnCloud()
     {
-        // Pick a random height for the cloud
-        float randomY = Random.Range(minY, maxY);
+        // Calculate dynamic vertical bounds based on current camera position and size
+        if (Camera.main == null) return;
+        float distance = transform.position.z - Camera.main.transform.position.z;
+        Vector3 minBounds = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance));
+        Vector3 maxBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, distance));
+
+        // Pick a random height within visible camera bounds
+        float randomY = Random.Range(minBounds.y, maxBounds.y);
         Vector3 spawnPos = new Vector3(transform.position.x, randomY, 0);
 
         // Create the cloud

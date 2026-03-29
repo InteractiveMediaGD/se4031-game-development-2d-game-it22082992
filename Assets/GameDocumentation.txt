@@ -1,0 +1,81 @@
+================================================================================
+GAME DOCUMENTATION
+================================================================================
+
+1. GAME TITLE
+--------------------------------------------------------------------------------
+2D Interactives Star Wings: Flyer (Assignment 02)
+
+
+2. STUDENT NAME AND IT NUMBER
+--------------------------------------------------------------------------------
+Name: Lonath Gunawardena
+IT Number: IT22082992
+
+
+3. SUMMARY OF THE GAME CONCEPT
+--------------------------------------------------------------------------------
+Star Wings is an infinite 2D side-scrolling action game where the player 
+controls a space explorer moving through a hazardous environment. The objective 
+is to survive as long as possible by navigating vertically to avoid obstacles, 
+shooting down hostile enemies, and collecting health packs to stay alive. The 
+game's difficulty scales dynamically, with increasing player speed and shifting 
+spawn rates, providing a progressively challenging experience.
+
+
+4. DESCRIPTION OF CORE FEATURES IMPLEMENTATION
+--------------------------------------------------------------------------------
+- Health System: Implemented in 'PlayerController.cs', managing energy levels with 
+  a dynamic UI slider using a color gradient (Green to Red). Damage is taken from 
+  obstacles and enemies.
+- Scoring System: Score increments when passing through specific zones or 
+  destroying enemies, displayed via TextMeshPro on the UI.
+- Health Packs: Randomly spawned collectables that restore health upon contact, 
+  ensuring survival during longer runs.
+- Projectile Attacks: Left Mouse Click triggers a shooting mechanism, allowing the 
+  player to defend against incoming enemies.
+- Dynamic Enemy AI: Enemies spawn at random intervals and heights, requiring the 
+  player to either dodge or engage them with projectiles.
+- Speed Progression: The player's forward velocity increases over time, ramping 
+  up the intensity of the gameplay.
+
+
+5. SCREENSHOTS OF GAMEPLAY
+--------------------------------------------------------------------------------
+[SCREENSHOT 1: Main Menu - High quality UI and character preview]
+[SCREENSHOT 2: Gameplay - Player avoiding obstacles and shooting enemies]
+[SCREENSHOT 3: Game Over - Displaying final score and restart options]
+
+
+6. CONTROL GUIDE (KEYBOARD/MOUSE INPUT)
+--------------------------------------------------------------------------------
+- Vertical Movement: W/S or UP/DOWN Arrow Keys
+- Shoot Projectiles: Left Mouse Button (Mouse 0)
+- Restart Game: Navigation buttons on the Game Over screen
+- Exit: Navigation button on the Main Menu
+
+
+7. DESCRIPTION OF THE CREATIVE FEATURE
+--------------------------------------------------------------------------------
+- Dynamic Difficulty & Weight-Based Spawning: The 'ObjectSpawner' uses a weighted 
+  algorithm that evolves over time. As the game progresses, obstacles and enemies 
+  become more frequent, while health packs become rarer, creating a natural and 
+  engaging difficulty curve.
+- Visual Polish (Camera Shake & Sprite Feedback): Hits with obstacles trigger 
+  a screen shake effect for impact, and the player sprite changes dynamically 
+  to reflect vertical movement (Look Up/Down/Neutral).
+
+
+8. CREDITS FOR EXTERNAL ASSETS/TOOLS USED
+--------------------------------------------------------------------------------
+- Unity Engine: Core development platform.
+- TextMeshPro: For high-quality UI text rendering.
+- Custom Assets: Sprites and audio clips integrated from Unity Assets Store and Pixabay.
+
+
+9. VIDEO LINK
+--------------------------------------------------------------------------------
+
+
+Link: []
+================================================================================

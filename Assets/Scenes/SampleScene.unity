@@ -1693,7 +1693,7 @@ MonoBehaviour:
     localZ: 10
     layerTexture: {fileID: 2800000, guid: 005d61280f8b42a409f0a6a3546a9a9a, type: 3}
     material: {fileID: 0}
-  baseScrollSpeed: 1
+  baseScrollSpeed: 0.5
 --- !u!4 &2138066503
 Transform:
   m_ObjectHideFlags: 0
